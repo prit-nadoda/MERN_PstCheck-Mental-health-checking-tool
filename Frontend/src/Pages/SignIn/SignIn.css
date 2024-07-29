@@ -1,0 +1,130 @@
+.login-container {
+  background-color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 350px;
+  height: 515px;
+}
+
+.login-container h2 {
+  margin: 0.5rem 0;
+  text-align: left;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.login-container p {
+  margin: 0;
+  font-size: 14px;
+  color: #6c757d;
+  text-align: left;
+  flex: 1;
+  margin-bottom: 1.5rem;
+}
+
+.login-container input[type="email"],
+.login-container input[type="password"] {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+  background-color: #e7f3ff;
+  outline: none;
+  border: none;
+}
+
+.login-container input[type="email"]:focus,
+.login-container input[type="password"]:focus {
+  outline: 1px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 0.9rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  font-weight: 200;
+  font-family: "Outfit", Arial, sans-serif;
+  font-weight: 300;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 17px;
+  margin-top: 0.5rem;
+}
+
+.login-container a {
+  color: black;
+  text-decoration: none;
+  font-size: 14px;
+  display: block;
+  text-align: right;
+  margin-bottom: 0.5rem;
+}
+
+.social-login {
+  margin-top: 1.5rem;
+  position: relative;
+  text-align: center;
+}
+
+.social-login .separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--text-color);
+  margin: 1rem 0;
+}
+
+.social-login .separator::before,
+.social-login .separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ced4da;
+}
+
+.social-login .separator:not(:empty)::before {
+  margin-right: 0.25em;
+}
+
+.social-login .separator:not(:empty)::after {
+  margin-left: 0.25em;
+}
+
+.social-login .with-google {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15.5px;
+  font-family: "Outfit", Arial, sans-serif;
+  font-weight: 400;
+  display: flex;
+  gap: 10px;
+  color: black;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.social-login button img {
+  width: 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 414px) {
+  .login-container {
+    margin: 0 1.2rem;
+    margin-top: 115px;
+    width: 90%;
+    padding: 1rem;
+  }
+}

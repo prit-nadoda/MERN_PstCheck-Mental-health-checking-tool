@@ -1,0 +1,87 @@
+/* Copy the relevant CSS styles for the Navbar here */
+.navbar {
+  width: 100%;
+  height: 70px;
+  background-color: var(--sidebar-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 14px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: var(--tran-05);
+}
+
+.navbar .image-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navbar .image-text i.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  height: 50px;
+  width: 60px;
+  color: var(--primary-color);
+  background: var(--sidebar-color);
+  transition: var(--tran-03);
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.navbar .image-text i.icon:hover {
+  background: var(--primary-color-light);
+  border-radius: 6px;
+}
+
+.navbar .image img {
+  height: 45px;
+  border-radius: 6px;
+}
+
+.navbar .image {
+  display: flex;
+  align-items: center;
+  height: 45px;
+  border-radius: 6px;
+}
+
+.navbar .image-text i.icon.sidebar-open {
+  background: var(--primary-color);
+  color: var(--sidebar-color);
+  border-radius: 6px;
+}
+
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.navbar .nav-sign-up,
+.nav-sign-in {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  height: 50px;
+  width: 80px;
+  text-decoration: none;
+  background: var(--primary-color);
+  color: var(--sidebar-color);
+  transition: var(--tran-03);
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  .auth-buttons {
+    display: none;
+  }
+}
