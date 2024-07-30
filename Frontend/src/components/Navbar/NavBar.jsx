@@ -39,17 +39,27 @@ const Navbar = ({ toggleSidebar }) => {
       <div className="auth-buttons">
         {isAuthenticated ? (
           <>
-            <button onClick={handleLogout}>Logout</button>
-            <img
-              src={assets.profile_icon} // Replace with the actual path to the profile icon
-              alt="Profile"
-              className="profile-icon"
-            />
+            <button className="nav-logout" onClick={handleLogout}>
+              <li className="nav-link">
+                <a href="#">
+                  <i className="bx bx-log-out icon"></i>
+                  <span className="text nav-text">Logout</span>
+                </a>
+              </li>
+            </button>
+            <div className="nav-logout">
+              <li className="nav-link">
+                <Link to="/profile" className="nav-sign-in">
+                  <i class="bx bx-user icon"></i>
+                  <span className="text nav-text">Profile</span>
+                </Link>
+              </li>
+            </div>
           </>
         ) : (
           <>
             <Link to="/sign-in" className="nav-sign-in">
-              Login
+              Sign In
             </Link>
             <Link to="/sign-up" className="nav-sign-up">
               Sign Up

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ForgotPassword = () => {
-  const { user, setActiveLink } = useContext(Context);
+  const { isAuthenticated, user, setActiveLink } = useContext(Context);
   const [email, setEmail] = useState("");
 
   const handleEmailChange = (e) => {
@@ -30,6 +30,12 @@ const ForgotPassword = () => {
       console.error("API error:", error);
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigateTo("/");
+    }
+  }, []);
 
   useEffect(() => {
     setActiveLink("");

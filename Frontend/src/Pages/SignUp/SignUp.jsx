@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./SignUp.css";
 import { assets } from "../../assets/assets";
 import { Context } from "../../main";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -18,6 +18,10 @@ const SignUp = () => {
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const handleGoogleLogin = async () => {
+    window.open(`http://localhost:4000/api/v1/user/auth/google`, "_self");
   };
 
   const handleRegister = async (e) => {
@@ -92,13 +96,15 @@ const SignUp = () => {
         </form>
         <div className="social-sign-up">
           <div className="separator">Or sign up with</div>
-          <button className="with-google">
+          <button onClick={handleGoogleLogin} className="with-google">
             <img src={assets.google_logo} alt="Google" />
             Sign up with Google
           </button>
-          <button className="with-google">
-            Already have an account? Sign Up
-          </button>
+          <Link to={"/sign-in"}>
+            <button className="with-google">
+              Already have an account? Sign In
+            </button>
+          </Link>
         </div>
       </div>
     </section>

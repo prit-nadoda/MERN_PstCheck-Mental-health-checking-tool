@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
   },
   number: {
     type: String,
-    required: [true, "Number is required!"],
+    // required: [true, "Number is required!"],
     minlength: [10, "Number must consist exactly 10 characters!"],
     maxlength: [10, "Number must consist exactly 10 characters!"],
   },
@@ -28,6 +28,9 @@ const userSchema = new mongoose.Schema({
     required: [true, "Password is required!"],
     minlength: [8, "Password must consist at least 8 characters!"],
     select: false,
+  },
+  googleId: {
+    type: String,
   },
   type: {
     type: String,

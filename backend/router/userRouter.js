@@ -1,4 +1,5 @@
 import express from "express";
+import passport from "passport";
 import {
   isAdminAuthenticated,
   isPatientAuthenticated,
@@ -15,11 +16,21 @@ import {
   patientRegister,
   resetPassword,
 } from "../controllers/userController.js";
+import { generateToken } from "../utils/jwkToken.js";
 
 const router = express.Router();
 
 router.post("/patient/register", patientRegister);
 router.post("/login", login);
+
+router.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    session: false,
+    scope: ["profile", "email"],
+  })
+);
+
 router.post("/admin/addNewAdmin", isAdminAuthenticated, addNewAdmin);
 router.get("/doctors", getAllDoctors);
 router.get("/admin/me", isAdminAuthenticated, getUserInfo);

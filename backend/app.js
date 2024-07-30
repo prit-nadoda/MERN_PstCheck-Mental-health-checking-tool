@@ -7,7 +7,12 @@ import { dbConnection } from "./database/dbConnection.js";
 import messageRouter from "./router/messageRouter.js";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import userRouter from "./router/userRouter.js";
+import oauthRouter from "./router/oauthRouter.js";
 import appointmentRouter from "./router/appointmentRouter.js";
+import { passportJwtStrategy } from "./utils/passportJwtStrategy.js";
+import { passportConfig } from "./utils/passport.js";
+import passport from "passport";
+// import { passportConfig } from "./utils/passport.js";
 
 config({ path: "./config/config.env" });
 const app = express();
@@ -36,6 +41,12 @@ app.use(
   })
 );
 
+app.use(passport.initialize());
+
+passportConfig();
+passportJwtStrategy();
+
+app.use("/api/v1", oauthRouter);
 app.use("/api/v1/message", messageRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/appointment", appointmentRouter);

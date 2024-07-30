@@ -57,6 +57,11 @@
   color: var(--sidebar-color);
   border-radius: 6px;
 }
+.nav-logout {
+  outline: none;
+  background: transparent;
+  border: none;
+}
 
 .auth-buttons {
   display: flex;
@@ -78,6 +83,65 @@
   transition: var(--tran-03);
   cursor: pointer;
   border-radius: 6px;
+  outline: none;
+  border: none;
+}
+
+.auth-buttons li {
+  height: 50px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.auth-buttons .icon {
+  min-width: 60px;
+  border-radius: 6px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.auth-buttons .text,
+.auth-buttons .icon {
+  color: var(--text-color);
+  transition: var(--tran-03);
+}
+
+.auth-buttons .text {
+  font-size: 17px;
+  font-weight: 500;
+  margin: 0 20px 0 0;
+  white-space: nowrap;
+  opacity: 1;
+}
+
+.navbar .auth-buttons li a {
+  list-style: none;
+  height: 100%;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  border-radius: 6px;
+  transition: var(--tran-03);
+  text-decoration: none;
+}
+
+.auth-buttons li a:hover {
+  background-color: var(--primary-color);
+}
+
+.auth-buttons li a:hover .icon,
+.auth-buttons li a:hover .text {
+  color: var(--sidebar-color);
+}
+
+a {
+  text-decoration: none;
 }
 
 @media (max-width: 600px) {
