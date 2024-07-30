@@ -7,15 +7,8 @@ import crypto from "crypto";
 import { sendEmail } from "../utils/emailService.js";
 
 export const patientRegister = catchAsyncError(async (req, res, next) => {
-  const {
-    fullname,
-    email,
-    number,
-    password,
-    type,
-    // doctorDepartment,
-    // docAvatar,
-  } = req.body;
+  const { fullname, email, number, password, type } = req.body;
+
   if (!fullname || !email || !number || !password || !type) {
     return next(new ErrorHandler("Please fill all the fields!", 400));
   }
@@ -24,7 +17,7 @@ export const patientRegister = catchAsyncError(async (req, res, next) => {
   if (isUserExist) {
     return next(
       new ErrorHandler(
-        "User already Registrated with given Email Address!",
+        "User already registered with the given Email Address!",
         400
       )
     );
@@ -36,10 +29,160 @@ export const patientRegister = catchAsyncError(async (req, res, next) => {
     number: number,
     password: password,
     type: type,
-    // doctorDepartment: doctorDepartment,
-    // docAvatar: docAvatar,
   });
-  generateToken(user, "patient registered successfully!", 200, res);
+
+  // Generate verification token
+  const verificationToken = crypto.randomBytes(32).toString("hex");
+  user.verificationToken = crypto
+    .createHash("sha256")
+    .update(verificationToken)
+    .digest("hex");
+  user.verificationTokenExpire = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+  await user.save();
+
+  // Create verification URL
+  const verificationUrl = `http://localhost:5173/verify-email/${verificationToken}`;
+
+  // Send verification email
+  const plainTextMessage = `Please verify your email by clicking the following link:\n\n${verificationUrl}\n\nIf you did not register with us, please ignore this email.`;
+  const htmlMessage = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Email Verification</title>
+      <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+      <style>
+        body {
+          text-align: center;
+          font-family: 'Outfit', Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #f2f2f2;
+        }
+
+        .container {
+          max-width: 600px;
+          margin: 50px auto;
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+          text-align: center;
+        }
+
+        .header img {
+          max-width: 150px;
+        }
+
+        .content {
+          margin-top: 20px;
+          color: #333;
+          line-height: 1.6;
+        }
+
+        .button {
+          display: inline-block;
+          background-color: #1a73e8;
+          color: #fff;
+          padding: 10px 20px;
+          text-decoration: none;
+          border-radius: 5px;
+          margin-top: 20px;
+          text-align: center;
+          font-size: 16px;
+          font-weight: 700;
+          border: none;
+          cursor: pointer;
+        }
+
+        .footer {
+          margin-top: 30px;
+          font-size: 0.9em;
+          color: #666;
+          text-align: center;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <img src="https://res.cloudinary.com/dbhwmmzmi/image/upload/v1722318274/flh9i9v1o0zbqjtldwtz.png" alt="Company Logo">
+        </div>
+        <div class="content">
+          <h1>Email Verification Required</h1>
+          <p>Hello,</p>
+          <p>Thank you for registering with us. Please verify your email address by clicking the button below:</p>
+          <p style="text-align: center;">
+          
+          <a href="${verificationUrl}">
+            <button type="submit" class="button">Verify Email</button>
+          </a>
+          </p>
+          <p>If you did not register with us, please ignore this email or contact support if you have questions.</p>
+        </div>
+        <div class="footer">
+          <p>&copy; 2024 PsyCheck. All rights reserved.</p>
+          <p>If you have any questions, please contact us at <a href="mailto:psycheck.notify@gmail.com">psycheck.notify@gmail.com</a></p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "Email Verification",
+      text: plainTextMessage,
+      html: htmlMessage,
+    });
+
+    generateToken(
+      user,
+      "Patient registered successfully! Please verify your email.",
+      200,
+      res
+    );
+  } catch (error) {
+    user.verificationToken = undefined;
+    user.verificationTokenExpire = undefined;
+    await user.save({ validateBeforeSave: false });
+    return next(new ErrorHandler("Email could not be sent", 500));
+  }
+});
+
+export const verifyUser = catchAsyncError(async (req, res, next) => {
+  const { token } = req.params;
+
+  const verificationToken = crypto
+    .createHash("sha256")
+    .update(token)
+    .digest("hex");
+
+  const user = await User.findOne({
+    verificationToken,
+    verificationTokenExpire: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return next(
+      new ErrorHandler("Verification token is invalid or has expired", 400)
+    );
+  }
+
+  user.isVerified = true;
+  user.verificationToken = undefined;
+  user.verificationTokenExpire = undefined;
+
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Email verified successfully",
+  });
 });
 
 export const login = catchAsyncError(async (req, res, next) => {
@@ -233,40 +376,92 @@ export const forgotPassword = catchAsyncError(async (req, res, next) => {
 
   const htmlMessage = `
     <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Password Reset</title>
-        <style>
-            .container {
-                font-family: Arial, sans-serif;
-                line-height: 1.6;
-                color: #333;
-            }
-            .link {
-                color: #1a73e8;
-                text-decoration: none;
-            }
-            .footer {
-                margin-top: 20px;
-                font-size: 0.9em;
-                color: #666;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <p>Your password reset token is as follows:</p>
-            <p>
-                <a href="${resetUrl}" class="link">
-                    Reset Password
-                </a>
-            </p>
-            <p class="footer">
-                If you have not requested this email, then ignore it.
-            </p>
-        </div>
-    </body>
-    </html>
+<html>
+
+<head>
+  <title>Password Reset</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      text-align: center;
+      font-family: 'Outfit', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      text-align: center;
+    }
+
+    .header img {
+      max-width: 150px;
+    }
+
+    .content {
+      margin-top: 20px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #1a73e8;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="https://res.cloudinary.com/dbhwmmzmi/image/upload/v1722318274/flh9i9v1o0zbqjtldwtz.png" alt="Company Logo">
+    </div>
+    <div class="content">
+      <h1>Password Reset Request</h1>
+      <p>Hello,</p>
+      <p>You requested a password reset. Click the button below to reset your password:</p>
+      <p style="text-align: center;">
+      <a href="${resetUrl}">
+        <button type="submit" class="button">Reset Password</button>
+      </a>
+      </p>
+      <p>If you did not request this password reset, please ignore this email or contact support if you have questions.</p>
+    </div>
+    <div class="footer">
+      <p>&copy; 2024 PsyCheck. All rights reserved.</p>
+      <p>If you have any questions, please contact us at <a href="mailto:psycheck.notify@gmail.com">psycheck.notify@gmail.com</a></p>
+    </div>
+  </div>
+</body>
+
+</html>
+
   `;
 
   try {

@@ -15,12 +15,16 @@ import {
   logoutPatient,
   patientRegister,
   resetPassword,
+  verifyUser,
 } from "../controllers/userController.js";
 import { generateToken } from "../utils/jwkToken.js";
 
 const router = express.Router();
 
 router.post("/patient/register", patientRegister);
+
+router.get("/verify-email/:token", verifyUser);
+
 router.post("/login", login);
 
 router.get(
