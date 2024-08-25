@@ -1,14 +1,17 @@
 import React, { useContext } from "react";
 import "./SideBar.css";
 import { Context } from "../../main";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { TbUserPlus } from "react-icons/tb";
 
 const SideBar = ({ isOpen, toggleSidebar }) => {
   const { isAuthenticated, setIsAuthenticated, setUser } = useContext(Context);
-  const handleLogout = async () => {
+  const navigate = useNavigate();
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
     try {
       await axios.get("http://localhost:4000/api/v1/user/patient/logout", {
         withCredentials: true,
@@ -21,9 +24,11 @@ const SideBar = ({ isOpen, toggleSidebar }) => {
       toast.error("Logout failed");
     }
   };
+
   const textStyle = {
     height: "20px",
   };
+
   return (
     <nav className={`sidebar ${isOpen ? "" : "close"}`}>
       <header>
@@ -88,14 +93,14 @@ const SideBar = ({ isOpen, toggleSidebar }) => {
             <>
               <li>
                 <Link to="/sign-in" className="side-sign-in">
-                  <i class="bx bx-log-in icon"></i>
-                  <span className="text nav-text">Sing In</span>
+                  <i className="bx bx-log-in icon"></i>
+                  <span className="text nav-text">Sign In</span>
                 </Link>
               </li>
               <li>
                 <Link to="/sign-up" className="side-sign-in">
                   <TbUserPlus style={textStyle} className="icon" />
-                  <span className="text nav-text">Sing Up</span>
+                  <span className="text nav-text">Sign Up</span>
                 </Link>
               </li>
             </>

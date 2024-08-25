@@ -19,6 +19,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Context } from "./main";
 import axios from "axios";
+import Assessment from "./Pages/assessment/Assessment";
 
 const Layout = ({ toggleSidebar, isSidebarOpen }) => {
   const location = useLocation();
@@ -74,6 +75,7 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/assessment" element={<Assessment />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
 
