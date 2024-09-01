@@ -15,6 +15,9 @@ import psyAi_icon from "./psyAi_icon.png";
 import long_logo from "./longLogo.png";
 import home_image from "./homeImage.png";
 import google_logo from "./google.png";
+import logo_half from "./logo_half.png";
+import logo_full from "./logo_full.png";
+import user_dashboard from "./user_dashboard.png"
 
 export const assets = {
   history_icon,
@@ -34,4 +37,7 @@ export const assets = {
   long_logo,
   home_image,
   google_logo,
+  logo_half,
+  logo_full,
+  user_dashboard,
 };

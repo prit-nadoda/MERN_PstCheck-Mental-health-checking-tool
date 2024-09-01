@@ -9,7 +9,7 @@ import AiAssistant from "./Pages/AiAssistant";
 import AiContextProvider from "./context/AiAssistantContext";
 import Navbar from "./components/Navbar/NavBar";
 import SideBar from "./components/SideBar/SideBar";
-import HomePage from "./Pages/Home/Home";
+import Home from "./Pages/Home/Home";
 import SignUp from "./Pages/SignUp/SignUp";
 import SignIn from "./Pages/SignIn/SignIn";
 import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
@@ -21,6 +21,7 @@ import { Context } from "./main";
 import axios from "axios";
 import Assessment from "./Pages/assessment/Assessment";
 import Dashboard from "./Pages/dashboard/Dashboard";
+import Footer from "./components/Footer/Footer";
 
 const Layout = ({ toggleSidebar, isSidebarOpen }) => {
   const location = useLocation();
@@ -31,6 +32,7 @@ const Layout = ({ toggleSidebar, isSidebarOpen }) => {
         <>
           <Navbar toggleSidebar={toggleSidebar} />
           <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+          <Footer/>
         </>
       )}
     </>
@@ -71,9 +73,9 @@ const App = () => {
   return (
     <AiContextProvider>
       <Router>
-        <Layout toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
+       
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<Home />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/assessment" element={<Assessment />} />
@@ -87,6 +89,7 @@ const App = () => {
           />
           <Route path="/ai-assistant" element={<AiAssistant />} />
         </Routes>
+        <Layout toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
         <ToastContainer />
       </Router>
     </AiContextProvider>

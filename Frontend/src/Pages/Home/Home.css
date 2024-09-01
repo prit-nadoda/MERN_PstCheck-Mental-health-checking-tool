@@ -1,74 +1,118 @@
-.home {
-  position: absolute;
-  top: 70px; /* Adjusted for the navbar */
-  left: 0;
-  height: calc(100vh - 70px); /* Full height minus navbar height */
-  width: 100%;
-  background-color: var(--sidebar-color);
-  transition: var(--tran-05);
-  padding: 12px 60px;
-}
-
-.home .greeting {
-  padding: 5px;
-  background: var(--primary-color-light);
+.container {
   text-align: center;
-  width: 100px;
-  float: center;
-  border-radius: 10px;
-  margin: auto;
-  margin-top: 45px;
-  margin-bottom: 15px;
-  animation: fadeIn 0.8s;
-  font-weight: 500;
-  color: var(--text-color);
-}
-
-.home .text {
-  line-height: 45px;
-  font-size: 35px;
-  font-weight: 500;
-  color: #16161d;
+  position: relative;
   width: 100%;
-  text-align: center;
-  animation: fadeIn 0.8s;
-}
-
-.home img {
-  margin: 12px 0px;
-  width: 100%;
-  height: 580px;
-  border-radius: 25px;
-  object-fit: cover;
-  animation: fadeIn 0.8s;
-}
-
-.home .cards {
+  height: 100vh; /* Maintain 100vh height */
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 30px 0px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 320px; /* Significant gap from the top */
+  overflow: visible; /* Allow content to overflow */
+  margin-bottom: 300px;
 }
 
-.home .cards .card {
-  margin: 15px;
+.custom-grid {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to right, var(--primary-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--primary-color) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+  mask-image: radial-gradient(
+    ellipse 60% 50% at 50% 0%,
+    #000 70%,
+    transparent 110%
+  );
+  z-index: -10;
+  animation: zoomOut 1.5s ease-out;
 }
 
-.home .cards .card h3 {
-  font-size: 30px;
+.heading-container {
+  position: relative;
+  z-index: 2;
+  animation: riseUp 1s ease-out;
+  margin-bottom: 10px; /* Reduced margin below the subheading */
 }
 
-.home .cards .card p {
-  font-size: 20px;
+.heading {
+  font-size: 6rem; /* Increased from 4.5rem */
+  font-weight: bold;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-foreground-color));
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.heading span {
+  background: linear-gradient(45deg, var(--secondary-foreground-color), var(--primary-color-light));
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.subheading {
+  font-size: 2.7rem; /* Increased from 1.5rem */
+  color: var(--text-color);
+  margin-top: 0; /* No gap above the subheading */
+  margin-bottom: 10px; /* Slightly increased margin to move the image closer */
   font-weight: 500;
-  line-height: 30px;
+}
+
+.dashboard-image {
+  position: relative;
+  display: inline-block;
+  animation: fadeIn 1.5s ease-out;
+}
+
+.custom-image {
+  width: 900px; /* Increased to 900px */
+  height: auto;
+  border-radius: 0.5rem; /* Further reduced from 1rem */
+}
+
+.custom-shadow:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 0.5rem; /* Reduced to match the new image border-radius */
+  background: conic-gradient(
+    from 90deg at 50% 50%,
+    var(--primary-color-light),
+    var(--primary-color),
+    var(--secondary-foreground-color),
+    var(--primary-color)
+  );
+  filter: blur(20px);
+  transform: translate3d(0, 0, -1px);
+  z-index: -1;
+}
+
+@keyframes riseUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @keyframes fadeIn {
-  0% {
+  from {
     opacity: 0;
   }
-  100% {
+  to {
     opacity: 1;
+  }
+}
+
+@keyframes zoomOut {
+  from {
+    transform: scale(5);
+  }
+  to {
+    transform: scale(1);
   }
 }

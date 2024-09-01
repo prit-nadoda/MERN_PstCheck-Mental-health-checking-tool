@@ -1,0 +1,150 @@
+.footer-component {
+    position: relative; /* Change to relative to ensure it doesn't stick to the viewport */
+    padding: 20px 0;
+    background: #ffffff; /* White background */
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    color: var(--text-color); /* Use --text-color for the text color */
+  }
+  
+  .footer-component-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .footer-component-article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin: -90px auto 10px;
+    min-height: 180px;
+    width: 70vw;
+    padding: 20px 30px 40px;
+    border-radius: 16px;
+    background: var(--primary-color); /* Primary color background */
+    color: #ffffff; /* White text color */
+  }
+  
+  .footer-component-article h2 {
+    font-size: 22px;
+    font-weight: 400;
+    text-align: center;
+  }
+  
+  .footer-component-article button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 20px;
+    background: #ffffff; /* Change button background to white */
+    border: 0;
+    border-radius: 30px;
+    white-space: nowrap;
+    
+    color: var(--primary-color); /* Set text and icon color to primary */
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  
+  .footer-component-article button span.material-symbols-outlined {
+    color: var(--primary-color); /* Change icon color to primary */
+    font-size: 20px; /* Slightly increase the icon size */
+  }
+  
+  .footer-component-section {
+    padding: 0 80px;
+    position: relative;
+    padding-top: 30px;
+    margin-bottom: 100px;
+  }
+  
+  .footer-component-section img {
+    display: block;
+    height: 50px;
+    margin: 0 auto 30px;
+  }
+  
+  .footer-component-section h3 {
+    color: rgba(0, 0, 0, 0.6); /* Adjusted to maintain contrast on white background */
+    font-weight: 400;
+    font-size: 13px;
+  }
+  
+  .footer-component-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 30px;
+    grid-template-columns: repeat(2, 1fr);
+    place-items: center;
+    text-align: center;
+  }
+  
+  .footer-component-section ul li a {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--text-color); /* Text color from variable */
+  }
+  
+  .footer-component-socials {
+    position: absolute;
+    left: 50%;
+    bottom: -60px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 24px;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.4); /* Adjusted for consistency on white background */
+  }
+
+  .footer-component svg{
+    color: var(--primary-color);
+    font-size: 24px;    
+  }
+  
+  @media (min-width: 530px) {
+    .footer-component-article {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 30px 40px 30px;
+      margin: -70px 40px 20px;
+      min-height: 140px;
+      width: auto;
+    }
+  
+    .footer-component-article h2 {
+      font-size: 24px;
+    }
+  
+    .footer-component-section {
+      margin-bottom: 50px;
+    }
+  
+    .footer-component-section img {
+      margin: 0 0 30px;
+    }
+  
+    .footer-component-section ul {
+      grid-template-columns: repeat(4, 1fr);
+      padding-right: 0;
+      place-items: start;
+      text-align: left;
+    }
+  
+    .footer-component-socials {
+      top: 37px;
+      left: 216px;
+      bottom: auto;
+      font-size: 18px;
+      gap: 3vw;
+      transform: translateX(0);
+      padding-left: 24px;
+      border-left: 1px solid rgba(0, 0, 0, 0.2); /* Line color adjusted for white background */
+    }
+  }
+  

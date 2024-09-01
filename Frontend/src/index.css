@@ -12,16 +12,21 @@
   --sidebar-color: #fff;
   --primary-color: #3467da;
   --primary-color-light: #f6f5ff;
+  --secondary-foreground-color: #ff8c00;
   --toggle-color: #ddd;
   --text-color: #707070;
+  --muted-color: #c4c4c4;
+  --background-color: #ffffff;
+  --dark-background-color: #333333;
   --tran-03: all 0.3s ease;
   --tran-04: all 0.3s ease;
   --tran-05: all 0.3s ease;
+  --secondary-foreground-color: #ff8c00;
 }
 
 #root {
   min-height: 100vh;
-  display: flex;
+
   animation: fadeIn 1.5s;
 }
 

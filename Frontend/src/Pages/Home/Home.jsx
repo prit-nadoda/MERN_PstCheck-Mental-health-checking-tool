@@ -1,49 +1,22 @@
-import React from "react";
-import "./Home.css";
-import { assets } from "../../assets/assets";
+import React from 'react';
+import './Home.css';
+import { assets } from '../../assets/assets.js';
 
-const HomePage = () => {
+function Home() {
   return (
-    <section className="home">
-      <p className="greeting">Hey there!</p>
-      <div className="text">
-        Welcome to <span style={{ color: "#fcb01e" }}>Psy</span>
-        <span style={{ color: "#3467da" }}>Check</span>, <br /> a mental health
-        checking tool
+    <div className="container">
+      <div className="custom-grid"></div>
+      <div className="heading-container">
+        <h1 className="heading">
+          Psy<span>Check</span>
+        </h1>
+        <p className="subheading">Mental health checking tool</p>
       </div>
-      <img className="hero-image" src={assets.home_image} alt="" />
-      <div className="cards">
-        <div className="card">
-          <h3>100k+</h3>
-          <p>
-            active users <br />
-            monthly
-          </p>
-        </div>
-        <div className="card">
-          <h3>5+</h3>
-          <p>
-            mental conditions <br />
-            assistance.
-          </p>
-        </div>
-        <div className="card">
-          <h3>AI</h3>
-          <p>
-            virtual health <br />
-            assistant
-          </p>
-        </div>
-        <div className="card">
-          <h3>15</h3>
-          <p>
-            questions health <br />
-            assesment
-          </p>
-        </div>
+      <div className="dashboard-image custom-shadow">
+        <img src={assets.user_dashboard} alt="Dashboard" className="custom-image" />
       </div>
-    </section>
+    </div>
   );
-};
+}
 
-export default HomePage;
+export default Home;
