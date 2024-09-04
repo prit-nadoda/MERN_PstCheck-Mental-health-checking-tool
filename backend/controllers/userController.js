@@ -5,6 +5,7 @@ import { generateToken } from "../utils/jwkToken.js";
 import cloudinary from "cloudinary";
 import crypto from "crypto";
 import { sendEmail } from "../utils/emailService.js";
+import { Question } from "../models/questionSchema.js";
 
 export const patientRegister = catchAsyncError(async (req, res, next) => {
   const { fullname, email, number, password, type } = req.body;
@@ -519,4 +520,69 @@ export const resetPassword = catchAsyncError(async (req, res, next) => {
   await user.save();
 
   generateToken(user, "Password reset successfully", 200, res);
+});
+
+export const addNewQuestion = catchAsyncError(async (req, res, next) => {
+  // Log the request body for debugging
+  console.log("Request Body: ", req.body);
+
+  const { text, options } = req.body;
+
+  // Validate that the required fields are provided
+  if (!text || !options) {
+    return next(new ErrorHandler("Please provide a question and options.", 400));
+  }
+
+  // Check if the number of options is exactly 4
+  if (options.length !== 4) {
+    return next(new ErrorHandler("A question must have exactly four options.", 400));
+  }
+
+  // Validate each option's text based on the schema
+  const validOptions = options.every(
+    (option) =>
+      typeof option.text === 'string' &&
+      option.text.length >= 2 &&
+      option.text.length <= 200
+  );
+
+  if (!validOptions) {
+    return next(
+      new ErrorHandler("Each option must have text between 2 and 200 characters.", 400)
+    );
+  }
+
+  // Add the question to the database
+  try {
+    const question = await Question.create({
+      text: text,
+      options: options, // Assuming options match the optionSchema
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Question added successfully!",
+      question,
+    });
+  } catch (error) {
+    console.log(error); // Log error for debugging
+    return next(new ErrorHandler("Failed to add question. Please try again.", 500));
+  }
+});
+
+
+
+export const getAllQuestions = catchAsyncError(async (req, res, next) => {
+  try {
+    // Fetch all questions from the database
+    const questions = await Question.find();
+
+    // Return success response with all the questions
+    res.status(200).json({
+      success: true,
+      questions,
+    });
+  } catch (error) {
+    return next(new ErrorHandler("Failed to retrieve questions. Please try again.", 500));
+  }
 });

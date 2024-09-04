@@ -7,8 +7,10 @@ import {
 import {
   addNewAdmin,
   addNewDoctor,
+  addNewQuestion,
   forgotPassword,
   getAllDoctors,
+  getAllQuestions,
   getUserInfo,
   login,
   logoutAdmin,
@@ -40,9 +42,10 @@ router.get("/doctors", getAllDoctors);
 router.get("/admin/me", isAdminAuthenticated, getUserInfo);
 router.get("/patient/me", isPatientAuthenticated, getUserInfo);
 router.get("/admin/logout", isAdminAuthenticated, logoutAdmin);
+router.get("/getAllQuestions", getAllQuestions);
 router.get("/patient/logout", isPatientAuthenticated, logoutPatient);
 router.post("/admin/addNewDoctor", isAdminAuthenticated, addNewDoctor);
-
+router.post("/admin/addNewQuestion", isAdminAuthenticated, addNewQuestion);
 router.post("/password/forgot", forgotPassword);
 router.put("/password/reset/:token", resetPassword);
 
