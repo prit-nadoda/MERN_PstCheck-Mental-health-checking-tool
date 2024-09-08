@@ -6,6 +6,9 @@ import cloudinary from "cloudinary";
 import crypto from "crypto";
 import { sendEmail } from "../utils/emailService.js";
 import { Question } from "../models/questionSchema.js";
+import { Condition } from "../models/conditionSchema.js";
+import { Option } from "../models/optionSchema.js";
+import { Report } from "../models/reportSchema.js";
 
 export const patientRegister = catchAsyncError(async (req, res, next) => {
   const { fullname, email, number, password, type } = req.body;
@@ -524,7 +527,6 @@ export const resetPassword = catchAsyncError(async (req, res, next) => {
 
 export const addNewQuestion = catchAsyncError(async (req, res, next) => {
   // Log the request body for debugging
-  console.log("Request Body: ", req.body);
 
   const { text, options } = req.body;
 
@@ -584,5 +586,123 @@ export const getAllQuestions = catchAsyncError(async (req, res, next) => {
     });
   } catch (error) {
     return next(new ErrorHandler("Failed to retrieve questions. Please try again.", 500));
+  }
+});
+
+
+
+export const processTestAndGenerateReport = catchAsyncError(async (req, res, next) => {
+  try {
+    const userResponses = req.body; // User's selected options from the test
+    const selectedOptions = Object.values(userResponses);
+    
+    // Fetch all option data from the database
+    const optionData = await Option.find();
+
+    let conditionArray = [];
+    let totalScore = 100; // Starting score
+
+    // Loop through selected options and adjust score based on severity
+    for (const option of selectedOptions) {
+      const opt = optionData.find((doc) => doc.text === option);
+
+      if (opt) {
+        conditionArray.push(opt.condition);
+
+        // Adjust score based on symptom severity
+        if (opt.severity === "mild") totalScore -= 1;
+        else if (opt.severity === "moderate") totalScore -= 3;
+        else if (opt.severity === "severe") totalScore -= 5;
+      }
+    }
+
+    // Flatten condition array
+    conditionArray = conditionArray.flat();
+    
+    // Count the occurrence of each condition
+    const occurrenceCount = {};
+    conditionArray.forEach((element) => {
+      occurrenceCount[element] = (occurrenceCount[element] || 0) + 1;
+    });
+
+    const userConditions = [];
+
+    // Only include conditions that occur more than 3 times
+    for (const element in occurrenceCount) {
+      if (occurrenceCount[element] >= 3) {
+        userConditions.push(element);
+      }
+    }
+    
+
+    const conditionsData = [];
+    let totalSigns = 0; // To calculate total signs for proportion
+
+    // First loop to calculate total signs
+    for (const condition of userConditions) {
+      const optionsForCondition = await Option.find({ condition: condition });
+      const signsForCondition = optionsForCondition
+        .filter((option) => selectedOptions.includes(option.text))
+        .map((option) => option.text);
+      totalSigns += signsForCondition.length;
+    }
+
+
+    // Second loop to map conditions and calculate proportions
+    for (const condition of userConditions) {
+      const optionsForCondition = await Option.find({ condition: condition });
+      const iconForCondition = await Condition.findOne({ condition: condition });
+      const signsForCondition = optionsForCondition
+        .filter((option) => selectedOptions.includes(option.text))
+        .map((option) => option.text);
+      
+      const conditionObject = {
+        condition: condition, // Condition name
+        signs: signsForCondition, // Signs for condition
+        icon: iconForCondition?.icon,
+        proportion: totalSigns > 0 ? (signsForCondition.length / totalSigns) * 100 : 0 // Proportion of signs
+      };
+
+      conditionsData.push(conditionObject);
+    }
+
+    let report;
+    const user = await User.findOne({ _id: req.user._id });
+
+    // If conditions data is found, create a report based on conditions and score
+    if (conditionsData.length > 0) {
+      report = new Report({
+        user: user._id,
+        conditions: conditionsData,
+        score: Math.max(totalScore, 0), // Ensure the score doesn't go below 0
+      });
+    } else {
+      // If no significant conditions, create a "Balanced Mental State" report
+      report = new Report({
+        user: user._id,
+        conditions: [{
+          condition: "You have Balanced Mental State",
+          signs: ["No significant signs"],
+          icon: "https://res.cloudinary.com/dbhwmmzmi/image/upload/v1725470908/none_kged6j.png", // Or a default icon URL
+          proportion: 100 // Full proportion for balanced state
+        }],
+        score: 100, // Full score for a balanced state
+      });
+    }
+
+    // Save the report to the database
+    const reportData = await report.save();
+
+    // Add the report ID to the user's reports array and save the user
+    
+    
+    user.reports.push(reportData._id);
+    await user.save();
+
+    // Send the report data in the response
+    res.status(200).json(reportData);
+  } catch (error) {
+    console.error("Error processing test:", error);
+    return next(new ErrorHandler("Internal Server Error", 500));
   }
 });

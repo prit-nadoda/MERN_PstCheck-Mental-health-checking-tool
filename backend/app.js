@@ -12,6 +12,7 @@ import appointmentRouter from "./router/appointmentRouter.js";
 import { passportJwtStrategy } from "./utils/passportJwtStrategy.js";
 import { passportConfig } from "./utils/passport.js";
 import passport from "passport";
+import {Condition} from "./models/conditionSchema.js"
 // import { passportConfig } from "./utils/passport.js";
 
 config({ path: "./config/config.env" });
@@ -50,6 +51,9 @@ app.use("/api/v1", oauthRouter);
 app.use("/api/v1/message", messageRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/appointment", appointmentRouter);
+
+//temp routes
+
 
 dbConnection();
 app.use(errorMiddleware);

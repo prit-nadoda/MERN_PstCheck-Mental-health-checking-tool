@@ -12,11 +12,12 @@ const conditionSchema = new Schema({
   icon: {
     type: String, // URL or path to the condition's icon
     required: [true, "Icon is required!"],
+
   },
   info: {
     type: String,
-    required: [true, "Info about the condition is required!"],
-    minlength: [10, "Condition info must consist of at least 10 characters!"],
+    // required: [true, "Info about the condition is required!"],
+    // minlength: [10, "Condition info must consist of at least 10 characters!"],
   },
   tips: {
     type: [String], // Array of strings for tips

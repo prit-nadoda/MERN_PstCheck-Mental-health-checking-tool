@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema({
     required: [true, "Password is required!"],
     minlength: [8, "Password must consist at least 8 characters!"],
     select: false,
+    
   },
   googleId: {
     type: String,
@@ -54,6 +55,7 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  reports: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Report' }],
   verificationToken: String,
   verificationTokenExpire: Date,
 });

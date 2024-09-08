@@ -18,6 +18,7 @@ import google_logo from "./google.png";
 import logo_half from "./logo_half.png";
 import logo_full from "./logo_full.png";
 import user_dashboard from "./user_dashboard.png"
+import psy_doodle from "./psyDoodleMax2.png";
 
 export const assets = {
   history_icon,
@@ -40,4 +41,5 @@ export const assets = {
   logo_half,
   logo_full,
   user_dashboard,
+  psy_doodle,
 };

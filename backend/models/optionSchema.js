@@ -13,6 +13,12 @@ const optionSchema = new Schema({
     type: [String], // Array of strings representing different conditions
     default: null, // Allows the condition to be null
   },
+  severity:{
+    type: String,  // String representing severity level
+    required: [true, "Severity text is required!"],
+    enum: ['mild', 'moderate', 'severe'],
+    default: 'mild',  // Default to Low severity level if not provided.
+  }
 });
 
 // Create and export the Option model

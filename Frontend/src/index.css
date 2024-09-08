@@ -71,3 +71,12 @@
     opacity: 1;
   }
 }
+
+@keyframes rotateBackground {
+  from {
+      transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+      transform: translate(-50%, -50%) rotate(360deg);
+  }
+}

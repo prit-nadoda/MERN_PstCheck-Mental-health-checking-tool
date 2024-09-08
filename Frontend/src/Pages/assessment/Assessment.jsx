@@ -72,15 +72,27 @@ const Assessment = () => {
 
   // Handle submit when the user is on the last question
   const handleSubmit = () => {
-    // Collect selected options based on the user selections
+   
     const selectedAnswers = selectedOptions.map(
-      (optionIndex, questionIndex) =>
-        questionsData[questionIndex]?.options[optionIndex]?.text
+      (optionIndex, questionIndex) => {
+        
+        return optionIndex !== null 
+          ? questionsData[questionIndex]?.options[optionIndex]?.text 
+          : null;
+      }
     );
 
-    // Display selected answers in an alert
-    alert(JSON.stringify(selectedAnswers, null, 2));
+    const filteredAnswers = selectedAnswers.filter(
+      (answer) => answer !== null && answer !== "None of these signs"
+    );
+  
+    // Display filtered selected answers in an alert
+    alert(JSON.stringify(filteredAnswers, null, 2));
+    console.log(JSON.stringify(filteredAnswers, null, 2));
+    
   };
+  
+  
 
   if (questionsData.length === 0) {
     return <div>Loading questions...</div>;
