@@ -700,7 +700,11 @@ export const processTestAndGenerateReport = catchAsyncError(async (req, res, nex
     await user.save();
 
     // Send the report data in the response
-    res.status(200).json(reportData);
+    res.status(200).json({
+      success: true,
+      message: "Your eport has been generated",
+      report: reportData,
+    });
   } catch (error) {
     console.error("Error processing test:", error);
     return next(new ErrorHandler("Internal Server Error", 500));

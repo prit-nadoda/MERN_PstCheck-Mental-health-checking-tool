@@ -1,18 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { FaRegLightbulb } from "react-icons/fa";
-import {
-  FaCircleChevronRight,
-  FaArrowLeft,
-} from "react-icons/fa6";
+import { FaCircleChevronRight, FaArrowLeft } from "react-icons/fa6";
 import { BsSkipForwardFill } from "react-icons/bs";
 import { TbPlayerTrackNextFilled } from "react-icons/tb";
+import DialogBox from "../../components/DialogBox/DialogBox"; // Import the modal component
 import "./Assessment.css";
+import { Toast } from "bootstrap";
 
 const Assessment = () => {
   const [questionsData, setQuestionsData] = useState([]);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [showModal, setShowModal] = useState(false); // Track modal visibility
   const carouselRef = useRef(null);
 
   // Fetch questions from the API
@@ -22,10 +22,10 @@ const Assessment = () => {
         const response = await axios.get(
           "http://localhost:4000/api/v1/user/getAllQuestions"
         );
-        setQuestionsData(response.data.questions); // Assuming response.data.questions contains the questions array
+        setQuestionsData(response.data.questions);
         setSelectedOptions(Array(response.data.questions.length).fill(null));
       } catch (error) {
-        console.error("Failed to load questions!", error); // Log error to console
+        console.error("Failed to load questions!", error);
       }
     };
 
@@ -55,11 +55,10 @@ const Assessment = () => {
   };
 
   const handleSkip = () => {
-    // Deselect the current question's option
     const updatedSelectedOptions = [...selectedOptions];
     updatedSelectedOptions[activeQuestionIndex] = null;
     setSelectedOptions(updatedSelectedOptions);
-    handleNext(); // Move to the next question
+    handleNext();
   };
 
   const scrollCarousel = (direction) => {
@@ -70,14 +69,24 @@ const Assessment = () => {
     }
   };
 
-  // Handle submit when the user is on the last question
-  const handleSubmit = () => {
-   
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const handleModalSubmit = () => {
+    closeModal();
+    handleSubmit(); // Call handleSubmit when confirmed
+  };
+
+  const handleSubmit = async () => {
     const selectedAnswers = selectedOptions.map(
       (optionIndex, questionIndex) => {
-        
-        return optionIndex !== null 
-          ? questionsData[questionIndex]?.options[optionIndex]?.text 
+        return optionIndex !== null
+          ? questionsData[questionIndex]?.options[optionIndex]?.text
           : null;
       }
     );
@@ -85,14 +94,29 @@ const Assessment = () => {
     const filteredAnswers = selectedAnswers.filter(
       (answer) => answer !== null && answer !== "None of these signs"
     );
-  
-    // Display filtered selected answers in an alert
-    alert(JSON.stringify(filteredAnswers, null, 2));
-    console.log(JSON.stringify(filteredAnswers, null, 2));
+
     
+    console.log(JSON.stringify(filteredAnswers, null, 2));
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/v1/user/submit-assessment",
+        filteredAnswers, { withCredentials: true }
+      );
+      
+      // Check response
+      if (response.data.success) {
+        console.log(JSON.stringify(response.data.report, null, 2));
+        const report = response.data.report;
+        alert(`Report Generated!\n\nScore: ${report.score}\n\n...`);
+      } else {
+        alert(response.data.message || "Failed to generate the report");
+      }
+    } catch (error) {
+      console.error("Error submitting assessment", error);
+      alert(error.response?.data?.message || "Failed to submit assessment. Please try again.");
+    }
   };
-  
-  
 
   if (questionsData.length === 0) {
     return <div>Loading questions...</div>;
@@ -102,11 +126,9 @@ const Assessment = () => {
     <section className="asmt-page">
       <div className="main-parent">
         <div className="left">
+          {/* Question Navigation */}
           <div className="q-count">
-            <button
-              onClick={() => scrollCarousel("left")}
-              className="nav-button"
-            >
+            <button onClick={() => scrollCarousel("left")} className="nav-button">
               <FaCircleChevronRight style={{ transform: "rotate(180deg)" }} />
             </button>
             <div className="questions-wrapper">
@@ -124,14 +146,12 @@ const Assessment = () => {
               <div className="fade fade-left"></div>
               <div className="fade fade-right"></div>
             </div>
-            <button
-              onClick={() => scrollCarousel("right")}
-              className="nav-button"
-            >
+            <button onClick={() => scrollCarousel("right")} className="nav-button">
               <FaCircleChevronRight />
             </button>
           </div>
 
+          {/* Current Question */}
           <div className="question">
             {questionsData[activeQuestionIndex]?.text}
           </div>
@@ -146,7 +166,7 @@ const Assessment = () => {
 
             {/* Conditionally render "Next" or "Submit" button */}
             {activeQuestionIndex === questionsData.length - 1 ? (
-              <button onClick={handleSubmit} className="next-button">
+              <button onClick={openModal} className="next-button">
                 Submit
               </button>
             ) : (
@@ -186,13 +206,25 @@ const Assessment = () => {
                   }`}
                   onClick={() => handleOptionClick(optionIndex)}
                 >
-                  {option.text} {/* Adjusted to use option.text */}
+                  {option.text}
                 </p>
               )
             )}
           </div>
         </div>
       </div>
+
+      {/* Modal Component */}
+      {showModal && (
+        <DialogBox
+          show={showModal} // Pass showModal state
+          dialogText="Are you sure you want to submit the assessment?"
+          confirmText="Submit"
+          cancelText="Cancel"
+          onConfirm={handleModalSubmit}
+          onClose={closeModal} // Make sure onClose is passed correctly
+        />
+      )}
     </section>
   );
 };
