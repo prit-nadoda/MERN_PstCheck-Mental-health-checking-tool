@@ -58,6 +58,18 @@ const userSchema = new mongoose.Schema({
   reports: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Report' }],
   verificationToken: String,
   verificationTokenExpire: Date,
+  subscription:{
+    plan: {
+      type: String,
+      enum: ["free", "premium"],
+      default: "free",
+    },
+    credits:{
+      type: Number,
+      default: 100,
+      min: 0,
+    }
+  }
 });
 
 userSchema.pre("save", async function (next) {

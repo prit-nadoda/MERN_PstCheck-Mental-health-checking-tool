@@ -42,10 +42,12 @@ const SideBar = ({ isOpen, toggleSidebar }) => {
           </li>
           <ul className="menu-links">
             <li className="nav-link">
+              <Link to="/dashboard" className="nav-sign-in">
               <a href="#">
                 <i className="bx bx-home-alt icon"></i>
                 <span className="text nav-text">Dashboard</span>
               </a>
+              </Link>
             </li>
             <li className="nav-link">
               <a href="#">

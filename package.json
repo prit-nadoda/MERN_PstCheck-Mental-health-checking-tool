@@ -2,6 +2,7 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.3",
+    "razorpay": "^2.9.4",
     "react-bootstrap": "^2.10.4"
   }
 }

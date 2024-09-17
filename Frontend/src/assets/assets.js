@@ -19,6 +19,9 @@ import logo_half from "./logo_half.png";
 import logo_full from "./logo_full.png";
 import user_dashboard from "./user_dashboard.png"
 import psy_doodle from "./psyDoodleMax2.png";
+import therapies from "./therapies.png";
+import consult from "./consult.png";
+import medication from "./medication.png";
 
 export const assets = {
   history_icon,
@@ -42,4 +45,7 @@ export const assets = {
   logo_full,
   user_dashboard,
   psy_doodle,
+  therapies,
+  consult,
+  medication,
 };

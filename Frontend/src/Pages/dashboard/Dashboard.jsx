@@ -7,6 +7,7 @@ import { AiFillDelete } from "react-icons/ai";
 import "./Dashboard.css";
 import MyCreditsBar from "../../components/MyCreditsBar";
 import MyAreaChart from "../../components/MyAreaChart";
+import { Link, useNavigate } from "react-router-dom";
 
 const reportData = [
   { title: "Report 1", score: 85, date: "10 Aug, 2024" },
@@ -26,6 +27,11 @@ const formatDataForChart = (reports) => {
 const Dashboard = () => {
   const [selectedReports, setSelectedReports] = useState([]);
 
+  const navigate = useNavigate();
+  const goToTest = (e) => {
+    e.preventDefault();
+    navigate("/assessment");
+  }
   // Handle clicking on a report
   const handleReportClick = (index, event) => {
     if (event.shiftKey) {
@@ -92,9 +98,15 @@ const Dashboard = () => {
                 the premium PsyCheck pack with unlimited reports per months.
               </p>
             </div>
-            <button>
+
+
+
+            <button onClick={(e) => goToTest(e)}>
+
               <IoAdd /> Add New
+
             </button>
+
           </div>
           <div className="right">
             <div className="r-1">
@@ -130,9 +142,8 @@ const Dashboard = () => {
           <div className="reports-container">
             {reportData.map((report, index) => (
               <div
-                className={`report ${
-                  selectedReports.includes(index) ? "active" : ""
-                }`}
+                className={`report ${selectedReports.includes(index) ? "active" : ""
+                  }`}
                 key={index}
                 onClick={(event) => handleReportClick(index, event)}
               >

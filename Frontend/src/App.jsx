@@ -22,6 +22,10 @@ import axios from "axios";
 import Assessment from "./Pages/assessment/Assessment";
 import Dashboard from "./Pages/dashboard/Dashboard";
 import Footer from "./components/Footer/Footer";
+import PaymentGateway from "./components/PaymentGateway/PaymentGateway";
+import PaymentWrapper from "./components/PaymentGateway/PaymentGateway";
+import DocProfile from "./Pages/DocProfile/DocProfile";
+
 
 const Layout = ({ toggleSidebar, isSidebarOpen }) => {
   const location = useLocation();
@@ -80,9 +84,11 @@ const App = () => {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/assessment" element={<Assessment />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          {/* <Route path="/pay" element={<PaymentWrapper amount={5000} />} /> */}
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
-
+          <Route path="/doctor-profile" element={<DocProfile />} />
+          
           <Route
             path="/reset-forgot-password/:token"
             element={<ResetForgotPassword />}

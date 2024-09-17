@@ -47,6 +47,8 @@ const passportConfig = () => {
                 url: avatarUploadResponse.secure_url,
               },
               password: hashedPassword,
+              isVerified: true
+     
             });
           }
 

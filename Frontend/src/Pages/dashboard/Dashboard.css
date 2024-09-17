@@ -123,6 +123,7 @@
   border-radius: 8px;
   border: none;
   margin-top: 15px;
+  text-decoration: none !important;
 }
 
 .dashboard .top .left button:hover {
@@ -259,8 +260,6 @@
   background: var(--primary-color);
   color: white;
 }
-
-//newbar
 /* Add a bar to show the number of selected items and action buttons */
 
 /* Media queries for responsiveness */

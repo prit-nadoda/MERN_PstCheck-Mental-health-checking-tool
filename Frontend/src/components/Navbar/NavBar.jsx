@@ -25,7 +25,7 @@ const Navbar = ({ toggleSidebar }) => {
   };
 
   return (
-    <nav className="navbar">
+    <nav className="nav-main">
       <div className="image-text">
         <i
           className="bx bx-menu-alt-left icon"
