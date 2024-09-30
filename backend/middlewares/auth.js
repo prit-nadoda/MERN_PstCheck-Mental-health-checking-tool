@@ -38,6 +38,8 @@ export const isPatientAuthenticated = catchAsyncError(
         )
       );
     }
+    
+    
     next();
   }
 );

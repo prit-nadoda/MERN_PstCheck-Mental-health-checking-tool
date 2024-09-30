@@ -16,8 +16,19 @@ const transactionSchema = new Schema({
   plan: {
     type: String,
     required: [true, 'Plan is required!'],
-    default: 'premium',
-    enum: ['premium', 'doctor'],
+    default: 'starter',
+    enum: ['starter', 'plus', 'mentor'],
+  },
+  transaction_status:{
+    type: String,
+    required: [true, 'Transaction status is required!'],
+  },
+  session_id: {
+    type: String,
+    required: [true, 'Session ID is required!'],
+    unique: true,
+    
+    select: false,
   },
   date: {
     type: Date,

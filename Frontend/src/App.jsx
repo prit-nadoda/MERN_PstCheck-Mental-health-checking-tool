@@ -25,6 +25,8 @@ import Footer from "./components/Footer/Footer";
 import PaymentGateway from "./components/PaymentGateway/PaymentGateway";
 import PaymentWrapper from "./components/PaymentGateway/PaymentGateway";
 import DocProfile from "./Pages/DocProfile/DocProfile";
+import Pricing from "./Pages/Pricing/Pricing";
+import PaymentSuccess from "./Pages/PaymentSuccess/PaymentSuccess";
 
 
 const Layout = ({ toggleSidebar, isSidebarOpen }) => {
@@ -88,6 +90,8 @@ const App = () => {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
           <Route path="/doctor-profile" element={<DocProfile />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/payment/success" element={<PaymentSuccess />} />
           
           <Route
             path="/reset-forgot-password/:token"

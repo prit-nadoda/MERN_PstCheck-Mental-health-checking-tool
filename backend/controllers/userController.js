@@ -591,6 +591,34 @@ export const getAllQuestions = catchAsyncError(async (req, res, next) => {
 
 
 
+// Controller to get logged-in user info with populated reports
+export const getUserWithReports = catchAsyncError(async (req, res, next) => {
+  try {
+    // Fetch the logged-in user ID from the request object
+    const userId = req.user._id;
+  
+    // Find the user and populate the reports field
+    const user = await User.findById(userId).populate('reports');
+
+    if (!user) {
+      return next(new ErrorHandler("User not found", 404));
+    }
+
+    // Send response with the user data and populated reports
+    res.status(200).json({
+      success: true,
+      message: "User data with reports fetched successfully",
+      user,
+    });
+  } catch (error) {
+    console.error("Error fetching user with reports:", error);
+    return next(new ErrorHandler("Failed to fetch user data. Please try again.", 500));
+  }
+});
+
+
+
+
 export const processTestAndGenerateReport = catchAsyncError(async (req, res, next) => {
   try {
     const userResponses = req.body; // User's selected options from the test

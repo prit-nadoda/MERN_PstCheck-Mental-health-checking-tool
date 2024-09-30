@@ -19,8 +19,10 @@ import {
   processTestAndGenerateReport,
   resetPassword,
   verifyUser,
+  getUserWithReports,
 } from "../controllers/userController.js";
 import { generateToken } from "../utils/jwkToken.js";
+import { checkUserSubscription } from "../middlewares/monitorCredits.js";
 
 const router = express.Router();
 router.post("/patient/register", patientRegister);
@@ -39,11 +41,12 @@ router.get("/admin/me", isAdminAuthenticated, getUserInfo);
 router.get("/patient/me", isPatientAuthenticated, getUserInfo);
 router.get("/admin/logout", isAdminAuthenticated, logoutAdmin);
 router.get("/getAllQuestions", getAllQuestions);
-router.post("/submit-assessment", isPatientAuthenticated, processTestAndGenerateReport);
+router.post("/submit-assessment", isPatientAuthenticated, checkUserSubscription, processTestAndGenerateReport);
 router.get("/patient/logout", isPatientAuthenticated, logoutPatient);
 router.post("/admin/addNewDoctor", isAdminAuthenticated, addNewDoctor);
 router.post("/admin/addNewQuestion", isAdminAuthenticated, addNewQuestion);
 router.post("/password/forgot", forgotPassword);
 router.put("/password/reset/:token", resetPassword);
+router.get("/getAllReports", isPatientAuthenticated, getUserWithReports);
 
 export default router;

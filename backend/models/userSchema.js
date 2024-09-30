@@ -3,6 +3,7 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+import { trace } from "console";
 
 const userSchema = new mongoose.Schema({
   fullname: {
@@ -55,21 +56,29 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  reports: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Report' }],
+  reports: [{ type: mongoose.Schema.Types.ObjectId, ref: 'reports' }],
   verificationToken: String,
   verificationTokenExpire: Date,
   subscription:{
     plan: {
       type: String,
-      enum: ["free", "premium"],
-      default: "free",
+      enum: ["starter", "plus", "expert"],
+      default: "starter",
     },
     credits:{
       type: Number,
       default: 100,
       min: 0,
     }
-  }
+  },
+  feedbacks: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'feedbacks'  
+  }],
+  transactions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'transactions'
+  }]
 });
 
 userSchema.pre("save", async function (next) {

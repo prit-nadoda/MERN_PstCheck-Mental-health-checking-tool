@@ -13,6 +13,9 @@ import { passportJwtStrategy } from "./utils/passportJwtStrategy.js";
 import { passportConfig } from "./utils/passport.js";
 import passport from "passport";
 import {Condition} from "./models/conditionSchema.js"
+import {Subscription} from "./models/subscriptionSchema.js"
+import subscriptionRouter from "./router/subscriptionRouter.js";
+import transactionRouter from "./router/transactionRouter.js";
 // import { passportConfig } from "./utils/passport.js";
 
 config({ path: "./config/config.env" });
@@ -51,11 +54,36 @@ app.use("/api/v1", oauthRouter);
 app.use("/api/v1/message", messageRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/appointment", appointmentRouter);
+app.use("/api/v1/subscription", subscriptionRouter);
+app.use("/api/v1/transaction", transactionRouter);
 
 //temp routes
 
 
 dbConnection();
 app.use(errorMiddleware);
+
+// app.post('/subscriptions', async (req, res) => {
+//   try {
+//     const { _type, name, amount, description, features } = req.body;
+//     console.log(req.body);
+    
+//     // Create a new subscription object
+//     const subscription = new Subscription({
+//       _type,
+//       name,
+//       amount,
+//       description,
+//       features
+//     });
+
+//     // Save the subscription to the database
+//     await subscription.save();
+    
+//     res.status(201).json({ message: 'Subscription created successfully', subscription });
+//   } catch (error) {
+//     res.status(400).json({ message: 'Error creating subscription', error: error.message });
+//   }
+// });
 
 export default app;

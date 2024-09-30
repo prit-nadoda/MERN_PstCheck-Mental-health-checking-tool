@@ -3,41 +3,37 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const subscriptionSchema = new Schema({
-userPlan:{
-    _type : {
-        type: String,
-        required: true,
-        default: "premium",
-     },
-     name: {
-        type: String,
-        required: [true, "Plan name is required!"],
-        default: "Premium plan",
-     },
-     amount : {
-        type: Number,
-        required: [true, "Amount is required!"],
-        default: 500,
-     }
-},
-doctorPlan:{
-    _type : {
-        type: String,
-        required: true,
-        default: "doctor",
-     },
-     name: {
-        type: String,
-        required: [true, "Plan name is required!"],
-        default: "Doctors plan",
-     },
 
+    _type : {
+        type: String,
+        required: true,
+        enum: ["plus","mentor", "starter"],
+        default: "starter",
+        unique: true, 
+     },
+     badge:{
+       type: String,
+       required: [true, "Badge is required!"],
+     },
+     name: {
+        type: String,
+        required: [true, "Plan name is required!"],
+        default: "Calm Starter",
+        unique: true, 
+     },
      amount : {
         type: Number,
         required: [true, "Amount is required!"],
-        default: 500,
-     }
-},
+        default: 0,
+     }, 
+     description:{
+       type: String,
+       required: [true, "Description is required!"],
+       default: "Ideal for those who want comprehensive mental health support with minimum features.",
+     },
+     features: {
+       type: [String],
+     },
 
 });
 

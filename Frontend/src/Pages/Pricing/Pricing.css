@@ -1,0 +1,198 @@
+
+
+.pricing-container h1 {
+    color: var(--smoky-black);
+    font-size: 55px;
+    margin-bottom: 40px;
+    font-weight: 800;
+    text-align: left;
+}
+
+.pricing-container {
+    margin: 100px 60px 100px 60px;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+}
+
+.pricing-cards {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.pricing-card {
+    background-color: var(--card-background);
+    border: 1px solid var(--card-border-color);
+    border-radius: 12px;
+    padding: 30px 25px;
+    width: 320px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: left;
+    flex: 1;
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+}
+
+.pricing-recommended-badge {
+    position: absolute;
+    top: -15px;
+    left: 25px;
+    background-color: var(--badge-background);
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.pricing-card h2 {
+    color: var(--smoky-black);
+    font-size: 22px;
+    margin: 20px 0 10px;
+    font-weight: bold;
+}
+
+.pricing-card .pricing-price {
+    display: flex;
+    align-items: baseline;
+    font-size: 48px;
+    font-weight: 700;
+    margin: 10px 0;
+    color: var(--smoky-black);
+}
+
+.pricing-card .pricing-price .pricing-dollar {
+    font-size: 48px;
+    line-height: 1;
+}
+
+.pricing-card .pricing-price .pricing-per-month {
+    font-size: 18px;
+    font-weight: normal;
+    color: var(--text-color);
+    margin-left: 5px;
+    position: relative;
+    top: -20px; 
+}
+
+.pricing-description {
+    color: var(--text-color);
+    margin: 20px 0 20px;
+    font-size: 16px;
+}
+
+.pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    color: var(--text-color);
+}
+
+.pricing-features li {
+    padding: 5px 0;
+    font-size: 16px;
+}
+
+.pricing-btn {
+    font-family: var(--font-family);
+    display: block;
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    border-radius: 8px;
+    margin: 8px 0;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 24px;
+    margin-bottom: 0px;
+}
+
+.pricing-btn.pricing-primary {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+
+.pricing-btn.pricing-primary:hover {
+    background-color: #4f7ff0;
+}
+
+.pricing-btn.pricing-secondary {
+    background-color: var(--primary-color-light);
+    color: var(--primary-color);
+}
+
+.pricing-btn.pricing-secondary:hover {
+    background: #e0e0e0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .pricing-cards {
+        flex-wrap: wrap; /* Allow cards to wrap onto the next line */
+        gap: 20px; /* Reduce the gap between cards */
+    }
+
+    .pricing-card {
+        width: 45%; /* Make cards occupy 45% of the container's width */
+        margin: 0 auto; /* Center cards within the container */
+    }
+
+    h1 {
+        font-size: 36px; /* Adjust the main title size for smaller screens */
+        text-align: center; /* Center-align the heading on smaller screens */
+    }
+}
+
+/* For mobile devices */
+@media (max-width: 600px) {
+    .pricing-cards {
+        flex-direction: column; /* Stack cards vertically */
+        align-items: center; /* Center the stacked cards */
+    }
+
+    .pricing-card {
+        width: 90%; /* Make the card occupy 90% of the container's width */
+        padding: 20px 15px; /* Reduce padding for smaller screens */
+    }
+
+    h1 {
+        font-size: 28px; /* Adjust the title size for mobile */
+        margin-bottom: 20px; /* Less margin on mobile */
+        text-align: center; /* Center-align the title */
+    }
+
+    .pricing-card h2 {
+        font-size: 20px; /* Adjust heading size inside the cards */
+    }
+
+    .pricing-card .pricing-price {
+        font-size: 36px; /* Adjust the price size */
+    }
+
+    .pricing-card .pricing-price .pricing-dollar {
+        font-size: 36px; /* Adjust the dollar sign size */
+    }
+
+    .pricing-card .pricing-price .pricing-per-month {
+        font-size: 16px; /* Adjust the per month size */
+    }
+
+    .pricing-features li {
+        font-size: 12px; /* Adjust feature list font size */
+    }
+
+    .pricing-btn {
+        font-size: 14px; /* Adjust button text size */
+        padding: 10px 0;
+    }
+}
